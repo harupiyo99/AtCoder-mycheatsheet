@@ -1,5 +1,30 @@
 # 競技プログラミング C++ 備忘録
 
+# 最初に書くテンプレ
+```cpp
+#include <iostream>   
+#include <vector>    
+#include <string>    
+#include <algorithm>
+#include <utility> 
+#include <map>       
+#include<queue>
+#include<cmath>
+#include<iomanip>
+
+using namespace std;
+using ll = long long int;
+using vi = vector<int>;
+using vvi = vector<vector<int>>; 
+using msi = map<string, int>;
+
+int main()
+{
+    return 0;
+}
+```
+これを大会の最初に貼り付ける
+
 # 入出力
 ## 高速な実装
 ```cpp
