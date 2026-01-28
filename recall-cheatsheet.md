@@ -1,5 +1,3 @@
-# 競技プログラミング C++ 備忘録
-
 # 最初に書くテンプレ
 ```cpp
 #include <iostream>   
@@ -20,8 +18,6 @@ using msi = map<string, int>;
 
 int main()
 {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
     return 0;
 }
 ```
@@ -37,61 +33,39 @@ cin.tie(nullptr);
 
 # 数値計算
 ## べき乗
-```cpp
-pow(base,exponent)
-```
-- baseのexponent乗(cmathファイルをインクルードしておく)。double型による誤差に注意。
+`pow(base,exponent)` baseのexponent乗(cmathファイルをインクルードしておく)。double型による誤差に注意。
 
 # 文字列
 ## 開始位置から取り出す長さだけの文字数を切り取る
-```cpp
-sub = S.substr(i, j)
-```
-- subは文字列Sのi文字目からj文字を取り出した文字列
+`sub = S.substr(i, j)` subは文字列Sのi文字目からj文字を取り出した文字列
 ## 文字列から特定の文字Aを取り除ける
-```cpp
-S.erase(remove(S.begin(), S.end(), A), S.end())
-```
-- Sから特定の文字Aが取り除かれる
+`S.erase(remove(S.begin(), S.end(), A), S.end())` により、文字列Sから特定の文字Aが取り除かれる
 
 # 型
 ## 型の宣言
-```cpp
-using lli = long long int
-```
-- lliで、long long intを宣言できるようにする(ほかの型であるdouble,string,vector,mapなどにも有効)
+`using ll = long long int` llで、long long intを宣言できるようにする(ほかの型であるdouble,string,vector,mapなどにも有効) <br>
+↑長い型名も短縮できて楽。型名にあだ名をつけている気分。
+
 ## 型変換
 ### 数字→数値
-```cpp
-number = numberS - '0' //(1)
-numberS = to_string(number) //(2)
-=stoi(numberS) //(3)
-=stoll(numberS) //(4)
-=stod(numberS) //(5)
-```
-上から順に、
-- (1)数**字**から数**値**へ
-- (2)数値から文字列(数字)へ
-- (3)数字からint型数値へ
-- (4)数字からlong long int型数値へ
-- (5)数字からdouble型数値へ
+`number = numberS - '0'` 数**字**から数**値**へ
+`numberS = to_string(number)` 数値から文字列(数字)へ
+`stoi(numberS)` 数字からint型数値へ
+`stoll(numberS)` 数字からlong long int型数値へ
+`stod(numberS)` 数字からdouble型数値へ
 
 # (一次元)配列
 ## 配列のソート
-```cpp
-vector<int> array;
-sort(array.begin() + i,array.begin() + n + 1); //(1)昇順ソート
-sort(array.rbegin() + i,array.rbegin() + n + 1); //(2)降順ソート
-```
-- (1)i番目からn番目までの要素を小さい順に並び変え
-- (2)i番目からn番目までの要素を大きい順に並び変え
+`sort(vec.begin() + i,vec.begin() + n + 1)` で、配列vecのi番目からn番目までの要素を小さい順に並び変え
+`sort(vec.rbegin() + i,vec.rbegin() + n + 1)` で、配列vecのi番目からn番目までの要素を大きい順に並び変え
+
 ## 順列全探索
 ```cpp
-do {処理} while (next_permutation(配列変数名.begin(),配列変数名.end()))
+do {処理} while (next_permutation(vec.begin(),vec.end()))
 ```
-配列の順列を全探索。**ソート済みの配列に対して使うようにする。事前に配列をソートしておく**
+配列vecの順列を全探索。**ソート済みの配列に対して使うようにする。事前に配列をソートしておく**
 ## 要素の追加
-(配列名).push_back()で配列の後ろに、新しく値を追加することができる
+`vec.push_back()`で配列vecの後ろに、新しく値を追加することができる
 
 # 多次元配列
 ## 多次元配列の宣言
