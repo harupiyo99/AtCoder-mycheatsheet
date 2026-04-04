@@ -153,8 +153,9 @@ v.erase(
 auto itr = lower_bound(vec.begin(), vec.end(), x);
 int i = distance(vec.begin(), itr);
 ```
-でvec[i] >= xを満たす最小の整数iを求めることができる。(0-indexedで)
-↑**`lower_bound(vec.begin() ,vec.end() ,x)`は、イテレータであることに注意**。数字を記録するだけであり、数字そのものではない。
+でvec[i] >= xを満たす最小の整数iを求めることができる。(0-indexedで)<br>
+なお、`int i = itr - vec.begin()`としても可<br>
+※**`lower_bound(vec.begin() ,vec.end() ,x)`は、イテレータであることに注意**。数字を記録するだけであり、数字そのものではない。
 
 # 多次元配列
 ## 多次元配列の宣言
