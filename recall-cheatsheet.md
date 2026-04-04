@@ -1,3 +1,6 @@
+自分用の備忘録です。
+競技プログラミング（AtCoder等）で「あれ何だっけ？」となった時にネット検索を挟まずすぐ解決したいと思い作成しました。APG4bの内容を参考とさせていただきました。
+
 # 最初に書くテンプレ
 ```cpp
 #include <iostream>   
@@ -5,23 +8,45 @@
 #include <string>    
 #include <algorithm>
 #include <utility> 
-#include <map>       
-#include<queue>
-#include<cmath>
-#include<iomanip>
+#include <map>
+#include <stack>
+#include <queue>
+#include <set>
+#include <cmath>
+#include <iomanip>
+
+#define rep(i, n) for (int i = 0; i < (int)(n); i++)
 
 using namespace std;
-using ll = long long int;
+
+using ll = long long;
+
 using vi = vector<int>;
-using vvi = vector<vector<int>>; 
+using vvi = vector<vector<int>>;
+using vll = vector<ll>; 
+using vvll = vector<vector<ll>>;
+using vb = vector<bool>;
+using vvb = vector<vector<bool>>;
+using vs = vector<string>;
+
+using pii = pair<int, int>;
+using pis = pair<int, string>;
+using pll = pair<ll, ll>;
+using pls = pair<ll, string>;
+using mii = map<int, int>;
+using mll = map<ll, ll>;
 using msi = map<string, int>;
 
 int main()
 {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
     return 0;
 }
 ```
 これを大会の最初に貼り付ける
+(のちの議論は、すべてこれが張り付けてある前提で行う)
 
 # 入出力
 ## 高速な実装
@@ -34,12 +59,44 @@ cin.tie(nullptr);
 # 数値計算
 ## べき乗
 `pow(base,exponent)` baseのexponent乗(cmathファイルをインクルードしておく)。double型による誤差に注意。
+## 10のn乗
+`10en` 10のn乗の数
+## ビットの計算
+`1 << N`によって、1のビットをN右にずらす。すなわち、2のN乗を表す。
+
+# 論理演算
+## ビット演算
+```cpp
+if (num >> i & 1) {
+    // 処理;
+}
+```
+numの(下から数えて)i番目のビットが1ならば、処理を実行する
 
 # 文字列
+## 小文字から大文字への変換
+```cpp
+#include <iostream>
+#include <cctype> // ファイルのインクルードに注意
+using namespace std;
+
+int main() {
+    char lower = 'a';
+    // toupperはintを返すので、charでキャスト（型変換）するのが一般的です
+    char upper = (char)std::toupper(lower);
+
+    std::cout << upper << std::endl; // 'A' が出力される
+    return 0;
+}
+```
+これにより、小文字を大文字にかえる。
+
 ## 開始位置から取り出す長さだけの文字数を切り取る
 `sub = S.substr(i, j)` subは文字列Sのi文字目からj文字を取り出した文字列
 ## 文字列から特定の文字Aを取り除ける
 `S.erase(remove(S.begin(), S.end(), A), S.end())` により、文字列Sから特定の文字Aが取り除かれる
+## 文字列の最初と最後
+`S.front()`と`S.back()`によって、文字列の最初の文字と最後の文字にアクセスできる
 
 # 型
 ## 型の宣言
@@ -60,39 +117,140 @@ cin.tie(nullptr);
 `sort(vec.rbegin() + i,vec.rbegin() + n + 1)` で、配列vecのi番目からn番目までの要素を大きい順に並び変え
 
 ## 順列全探索
-```cpp
-do {処理} while (next_permutation(vec.begin(),vec.end()))
-```
-配列vecの順列を全探索。**ソート済みの配列に対して使うようにする。事前に配列をソートしておく**
+`do {処理} while (next_permutation(vec.begin(),vec.end()))`配列vecの順列を全探索。**ソート済みの配列に対して使うようにする。事前に配列をソートしておく**
 ## 要素の追加
 `vec.push_back()`で配列vecの後ろに、新しく値を追加することができる
+
+## 最大値の導出
+`*max_element(a.begin(),a.end())`で配列aの最大値(minでも同様)
+`*max_element(a.begin() + i,a.begin + (j + 1))`で配列aの、i番目からj番目の最大値(minでも同様)
+
+## 要素の削除
+```cpp
+vector<int> v = {1, 2, 3, 4, 5};
+
+v.erase(v.begin() + i);
+```
+i 番目（0-indexed）を削除
+```cpp
+vector<int> v = {1, 2, 3, 2, 4};
+
+v.erase(remove(v.begin(), v.end(), 2), v.end());
+```
+これによって特定の要素を削除(上のようだと、2が消える)
+```cpp
+v.erase(
+    remove_if(v.begin(), v.end(), [](int x) {
+        return x % 2 == 0; // ここに条件式を記述
+    }),
+    v.end()
+);
+```
+配列vの要素xが偶数だった場合、それを削除(条件式を指定すればどういう消し方もでき、便利)
+
+# lower_bound
+```cpp
+auto itr = lower_bound(vec.begin(), vec.end(), x);
+int i = distance(vec.begin(), itr);
+```
+でvec[i] >= xを満たす最小の整数iを求めることができる。(0-indexedで)
+↑**`lower_bound(vec.begin() ,vec.end() ,x)`は、イテレータであることに注意**。数字を記録するだけであり、数字そのものではない。
 
 # 多次元配列
 ## 多次元配列の宣言
 - `vector<vector<要素の型>> 変数名(要素数1, vector<要素の型>(要素数2, 初期値))`で宣言できる
 - 初期値は省略可能
-- `(変数名).size()`で縦の大きさを取得できる
-- `(変数名)[0].size()`で横の大きさを取得できる
+- `変数名.size()`で縦の大きさを取得できる
+- `変数名[0].size()`で横の大きさを取得できる
 
-- `*max_element(a + 1,a + (要素数))`で配列の最大値を求められる(minでも同様)
-- `変数名 = lower_bound(配列名 + 1,配列名 + 要素数 + 1,x) - 配列名`で配列名[i] >= xを満たす最小の整数iを変数に記録
+# set(値を重複なく管理可能)
+## setの宣言
+```cpp
+set<int> num = {1,2,3,3}; //(1)
+set<char> s = {a,b,c,d,c,e}; //(2)
+```
+このように宣言し、numやsの要素をcoutですべて出力すると、
+```txt
+1 2 3 // (1)
+a b c d e // (2)
+```
+となる
+## setへの要素の追加
+```cpp
+num.insert(200);
+num.insert(3);
+```
+このような文で、coutを用いて要素を追加すると、
+```txt
+1 2 3 200
+```
+のように、存在していない200が追加される。
+また、すでにnumに存在している3の数は増えない。
+## setの要素の削除
+```cpp 
+num.erase(1)
+```
+を書き、coutを用いて出力すると、
+```txt
+2 3 200
+```
+と出力され、1が消されている。
+## setの最小値
+```cpp
+min_num = *num.begin(); // num.begin()はイテレータ
+cout << num;
+```
+とかくと、出力は
+```txt
+2
+```
+となる。また、setの下からn番目の要素にアクセスするときは、num.begin()に(n-1)を足す。
+## x以上の最小値
+例えば、前述のnumで4以上の値で最小値を出力するとき、
+```cpp
+cout << *num.lower_bound(4) << "\n"; // num.lower_bound()自体はイテレータ
+```
+と書く。出力結果は、
+```txt
+200
+```
+となる。
 
 # Pair型
 ## pair型変数
-- `pair<型1,型2> (変数名p) = {変数1,変数2}`で宣言
+- `pair<型1,型2> 変数名p = {変数1,変数2}`で宣言
 - `p.first` は、変数1を指し、`p.second`は変数2を指す
 - `p = make_pair(変数1,変数2)`という宣言の方法もあるが、今はこれでなくても先ほどのやつで大丈夫。
 
-<br>
-
 ## pair型配列
-- `vector<pair<型1,型2>> (配列名p) = {{変数1-1,変数1-2},{変数2-1,変数2-2},...}`でpair型配列を宣言
+- `vector<pair<型1,型2>> p = {{変数1-1,変数1-2},{変数2-1,変数2-2},...}`でpair型配列pを宣言
 - `p[i].first,p[i].second`などで、pのi-1番目の要素にアクセス
-- `p.push_back(make_pair(変数a,変数b))`で、新しく変数aと変数bのpairを配列pに追加
+- `p.push_back(make_pair(a,b))`で、新しく変数aと変数bのpairを配列pに追加
+
+# stack
+順に要素を入れていき、最後に入れたものだけを操作できるデータ構造。
+```cpp
+stack<string> name; // stack型の変数nameを宣言
+
+name.push("enaga"); // nameの一番上に"enaga"という要素を追加
+name.push("hiyoko"); // nameの一番上に"hiyoko"という要素を追加
+
+A = name.top(); // nameの一番上にアクセス
+cout << A << "\n";
+
+name.pop(); // nameの一番上を削除
+cout << name.top() << "\n";
+```
+以上を実行すると、
+```txt
+hiyoko
+enaga
+```
+と出力される
 
 # map(連想配列)
 キーとヴァリューを関連付けて管理する方法
-- `map<キーの型1,値の型2> (連想配列名memo)`で連想配列memoを宣言
+- `map<キーの型1,値の型2> memo`で連想配列memoを宣言
 - `memo[キー] = (値)`で要素を追加or更新
 
 # STLの関数
@@ -101,3 +259,6 @@ do {処理} while (next_permutation(vec.begin(),vec.end()))
 - `swap(a,b)` 交換
 - `sort(vec.begin(), vec.end())` 小さい順に並び替え
 - `reverse(vec.begin(),vec.end())` 並びを逆にする
+
+<br>
+参考：[APG4b](https://atcoder.jp/contests/APG4b)
